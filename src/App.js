@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+console.log(process.env.REACT_APP_API_URL)
+
 function App() {
   const [dataSource, setDataSource] = useState(Array.from({ length: 20 }))
   const [hasMore, setHasMore] = useState(true)
