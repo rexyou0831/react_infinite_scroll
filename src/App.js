@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-console.log(process.env.REACT_APP_API_URL)
+import axios from 'axios';
 
 function App() {
-  const [dataSource, setDataSource] = useState(Array.from({ length: 20 }))
-  const [hasMore, setHasMore] = useState(true)
+  const [dataSource, setDataSource] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [currentTotal, setCurrentTotal] = useState(0);
+  const [pageNumber, setPageNumber] = useState(2);
   console.log(dataSource)
+
+useEffect(()=>{
+  axios.get(process.env.REACT_APP_API_URL).then(response=>{
+    console.log(response.data)
+    setDataSource(response.data.users.data)
+    setTotal(response.data.users.total)
+    setCurrentTotal(response.data.users.to)
+  })
+}, [])
 
   const style = {
     border: "1px solid blue",
@@ -17,10 +28,18 @@ function App() {
 
   const fetchMoreData = () => {
 
-    if(dataSource.length < 100){ 
+    if(currentTotal < 100){ 
+
+      setPageNumber(prev => prev + 1); console.log(pageNumber)
 
       setTimeout(() => {
-        setDataSource(dataSource.concat(Array.from({ length: 20 })));
+        axios.get(process.env.REACT_APP_API_URL+`/?page=${ pageNumber }`).then(response=>{
+          console.log(response.data)
+          setDataSource(prev => [ ...prev, ...response.data.users.data ])
+          setTotal(response.data.users.total)
+          setCurrentTotal(response.data.users.to)
+        })
+        // setDataSource(dataSource.concat(Array.from({ length: 20 })));
       }, 1000);
 
     }
@@ -42,7 +61,7 @@ function App() {
         {
           dataSource.map((item, index)=>{
             return (
-              <div style={ style } key={ index }>Hi, I'm number { index }</div>
+              <div style={ style } key={ index }>{ item.first_name }</div>
             );
           })
         }
