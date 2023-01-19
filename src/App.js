@@ -57,7 +57,8 @@ useEffect(()=>{
           hasMore={ hasMore }
           loader={ <p>Loading</p> }
           endMessage={ <p>End Point</p> }
-          >
+          height={ 550 }
+      >
         {
           dataSource.map((item, index)=>{
             return (
