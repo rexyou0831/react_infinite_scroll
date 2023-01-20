@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
-import { Lists, Loader } from './components';
+import { Lists, Loader, Endpage } from './components';
 import { FaSearch, FaFilter } from "react-icons/fa";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
   const [hasMore, setHasMore] = useState(true);
   const [total, setTotal] = useState(0);
   const [currentTotal, setCurrentTotal] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(2);
   const [displayPage, setDisplayPage] = useState(1);
   const [totalPage, setTotalPage ] = useState(0);
 
@@ -22,14 +22,16 @@ function App() {
       setTotal(response.data.users.total)
       setCurrentTotal(response.data.users.to)
       setTotalPage(response.data.users.last_page)
+      setDisplayPage(1)
+      setHasMore(true)
     })
   }, [])
 
   const fetchMoreData = () => {
 
-    if(currentTotal < total && pageNumber <= 10){ 
+    if(currentTotal < total){ 
 
-      setPageNumber(prev => prev + 1); console.log(pageNumber)
+      setPageNumber(prev => prev + 1);
 
       setTimeout(() => {
         axios.get(process.env.REACT_APP_API_URL+`/?page=${ pageNumber }`).then(response=>{
@@ -57,7 +59,7 @@ function App() {
           next={fetchMoreData} 
           hasMore={ hasMore }
           loader={ <Loader /> }
-          endMessage={ <p>End Point</p> }
+          endMessage={ <Endpage /> }
           // height={ 550 }
       >
         <Lists dataSource={ dataSource } />
