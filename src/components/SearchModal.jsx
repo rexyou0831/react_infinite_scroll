@@ -1,8 +1,14 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
+import CallRequest from "./CallRequest";
 
 const SearchModal = () => {
+
+  const pageNumber = 1;
+  const { sample } = CallRequest({ pageNumber });
+
+  console.log(sample)
 
   // Control Modal
   const [show, setShow] = useState(false);
