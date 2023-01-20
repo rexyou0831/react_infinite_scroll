@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
+import { Lists } from './components'
 
 function App() {
   const [dataSource, setDataSource] = useState([]);
@@ -59,13 +60,7 @@ useEffect(()=>{
           endMessage={ <p>End Point</p> }
           height={ 550 }
       >
-        {
-          dataSource.map((item, index)=>{
-            return (
-              <div style={ style } key={ index }>{ item.first_name }</div>
-            );
-          })
-        }
+        <Lists dataSource={ dataSource } />
       </InfiniteScroll>
     </div>
   );
