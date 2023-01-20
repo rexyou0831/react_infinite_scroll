@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
-import { Lists, Loader, Endpage } from './components';
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { Lists, Loader, Endpage, SearchModal } from './components';
 
 function App() {
 
@@ -64,19 +63,16 @@ function App() {
       >
         <Lists dataSource={ dataSource } />
       </InfiniteScroll>
-      <div className=' fixed w-12 h-12 bg-black bottom-44 right-0 rounded-tl-lg rounded-bl-lg text-white flex items-center justify-center'>
+      {/* <button className=' fixed w-12 h-12 bg-black bottom-28 right-0 rounded-tl-lg rounded-bl-lg text-white flex items-center justify-center' onClick={ showCtrl }>
           <FaSearch className='text-2xl' />
-      </div>
-
-      <div className=' fixed w-12 h-12 bg-black bottom-28 right-0 rounded-tl-lg rounded-bl-lg text-white flex items-center justify-center'>
-          <FaFilter className='text-2xl' />
-      </div>
+      </button> */}
 
       <div className=' fixed w-12 h-24 bg-black bottom-0 right-0 rounded-tl-lg text-white flex flex-col text-center text-md items-center justify-center'>
           <span>{ displayPage }</span>
           <span>----</span>
           <span>{ totalPage }</span>
       </div>
+      <SearchModal />
     </div>
   );
 }
